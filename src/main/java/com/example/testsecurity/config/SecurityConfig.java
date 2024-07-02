@@ -38,7 +38,9 @@ public class SecurityConfig {
                 .loginProcessingUrl("/loginProc").permitAll()
         );
 
-        http.csrf((auth) -> auth.disable());
+
+        //디폴트는 enable
+//        http.csrf((auth) -> auth.disable());
 
         http.sessionManagement((auth) -> auth
                 .maximumSessions(1)
@@ -47,6 +49,10 @@ public class SecurityConfig {
         //세션 고정 보호(해킹으로부터 안전)
         http.sessionManagement((auth) -> auth
                 .sessionFixation().changeSessionId());
+
+        //로그아웃을 위한 설정
+        http.logout((auth) -> auth.logoutUrl("/logout")
+                        .logoutSuccessUrl("/"));
 
         return http.build();
     }
